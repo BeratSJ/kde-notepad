@@ -1,34 +1,50 @@
 #include <QApplication>
-#include <KMessageBox>
+#include <QCommandLineParser>
+#include <KAboutData>
+#include <KLocalizedString>
+
+#include "mainwindow.h"
+
 
 int main (int argc, char *argv[])
 {
+    using namespace Qt::Literals::StringLiterals;
+
     QApplication app(argc, argv);
+    KLocalizedString::setApplicationDomain("mainwindow");
 
-    KGuiItem primaryAction(
-        // Content text, Icon
-        QStringLiteral("Hello"), QString(),
-        // Tooltip text
-        QStringLiteral("This is a tooltip"),
-        // WhatsThis text
-        QStringLiteral("This is a WhatsThis help text."));
+    KAboutData aboutData(
+        u"mainwindow"_s,
+        i18n("Main Window"),
+        u"1.0"_s,
+        i18n("A simple text area"),
+        KAboutLicense::GPL,
+        i18n("(c) 2024"),
+        i18n("Educational application..."),
+        u"https://apps.kde.org/someappname/"_s,
+        u"submit@bugs.kde.org"_s);
 
-    auto messageBox = KMessageBox::questionTwoActions(
-        // Parent
-        nullptr,
-        // MessageBox contents
-        QStringLiteral("Hello World"),
-        // MessageBox title
-        QStringLiteral("Hello Title"),
-        // Primary action, Secondary action
-        primaryAction, KStandardGuiItem::cancel());
+    aboutData.addAuthor(
+        i18n("John Doe"),
+        i18n("Tutorial learner"),
+        u"john.doe@example.com"_s,
+        u"https://john-doe.example.com"_s,
+        u"johndoe"_s);
 
-    if (messageBox == KMessageBox::PrimaryAction)
-    {
-        return EXIT_SUCCESS;
-    }
-    else
-    {
-        return EXIT_FAILURE;
-    }
+    KAboutData::setApplicationData(aboutData);
+
+    QCommandLineParser parser;
+    aboutData.setupCommandLine(&parser);
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
+
+
+    MainWindow *window = new MainWindow();
+
+    window->show();
+
+
+
+    return app.exec();
+
 }

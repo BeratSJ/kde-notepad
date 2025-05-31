@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(helloworld)
+
+project(mainwindow)
+
 
 set(QT_MIN_VERSION "6.6.0")
 set(KF_MIN_VERSION "6.0.0")
@@ -21,23 +23,42 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
 find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     CoreAddons      # KAboutData
     I18n            # KLocalizedString
-    WidgetsAddons   # KMessageBox
+
+    XmlGui          # KXmlGuiWindow
+
+    TextWidgets     # KTextEdit
+
 )
 
-add_executable(helloworld)
 
-target_sources(helloworld
+add_executable(mainwindow)
+
+
+
+target_sources(mainwindow
+
     PRIVATE
     main.cpp
+
+    mainwindow.cpp
+
 )
 
-target_link_libraries(helloworld
+
+
+target_link_libraries(mainwindow
     Qt6::Widgets
     KF6::CoreAddons
+
     KF6::I18n
-    KF6::WidgetsAddons
+
+    KF6::XmlGui
+
+    KF6::TextWidgets
 )
 
-install(TARGETS helloworld ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+
+
+install(TARGETS mainwindow ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
