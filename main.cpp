@@ -21,15 +21,15 @@ int main (int argc, char *argv[])
         KAboutLicense::GPL,
         i18n("(c) 2024"),
         i18n("Educational application..."),
-        u"https://apps.kde.org/someappname/"_s,
-        u"submit@bugs.kde.org"_s);
+        u"x"_s,
+        u"f"_s);
 
     aboutData.addAuthor(
         i18n("John Doe"),
         i18n("Tutorial learner"),
-        u"john.doe@example.com"_s,
-        u"https://john-doe.example.com"_s,
-        u"johndoe"_s);
+        u"x"_s,
+        u"y"_s,
+        u"z"_s);
 
     KAboutData::setApplicationData(aboutData);
 
