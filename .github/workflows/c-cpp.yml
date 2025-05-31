@@ -16,13 +16,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up CMake
-        uses: actions/setup-cmake@v3  # V2 yerine V3 kullanıyoruz
-        with:
-          cmake-version: '3.24.0'  # İhtiyacınıza göre versiyon seçin
+      - name: Install CMake manually
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake  # CMake'i Ubuntu'dan yükler
 
       - name: Install build dependencies
-        run: sudo apt-get update && sudo apt-get install -y build-essential
+        run: sudo apt-get install -y build-essential
 
       - name: Create build directory
         run: mkdir build && cd build
