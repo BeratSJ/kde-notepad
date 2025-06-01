@@ -16,22 +16,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install CMake manually
+      - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake  # CMake'i Ubuntu'dan yükler
-          sudo apt-get install extra-cmake-modules
+          sudo apt-get install -y build-essential cmake git
+          sudo apt-get install -y extra-cmake-modules
 
-
-      - name: Install build dependencies
-        run: sudo apt-get install -y build-essential
+      - name: Install ECM 6.0.0
+        run: |
+          # ECM 6.0.0'ı GitHub'dan indirip kuruyoruz
+          git clone --branch master https://invent.kde.org/kde/extra-cmake-modules.git
+          cd extra-cmake-modules
+          mkdir build
+          cd build
+          cmake ..
+          make
+          sudo make install
 
       - name: Create build directory
-        run: mkdir build && cd build
+        run: mkdir build
 
-      - name: Run CMake & build
+      - name: Run CMake & configure build
         run: cmake -B build/ --install-prefix ~/.local
 
       - name: Build with CMake
-        run: cmake --build build/ --parallel
-             cmake --install build/
+        run: cmake --build build/ --parallel && cmake --install build/
