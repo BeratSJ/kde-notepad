@@ -21,7 +21,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential cmake git
           sudo apt-get install -y extra-cmake-modules
-          sudo apt-get install -y qt6-base-dev  # Qt6'yı yükler
+          sudo apt-get install -y qt6-base-dev  # Qt6 6.4.2'yi kuruyoruz (Ubuntu varsayılan paket)
+          
+      - name: Install Qt6 6.6.0
+        run: |
+          # Qt6 6.6.0'ı GitHub'dan indirip kuruyoruz
+          wget https://download.qt.io/official_releases/qt/6.6/6.6.0/qt-opensource-linux-x64-6.6.0.run
+          chmod +x qt-opensource-linux-x64-6.6.0.run
+          ./qt-opensource-linux-x64-6.6.0.run --confirm-license --silent
 
       - name: Install ECM 6.0.0
         run: |
@@ -38,7 +45,9 @@ jobs:
         run: mkdir build
 
       - name: Run CMake & configure build
-        run: cmake -B build/ --install-prefix ~/.local
+        run: |
+          cmake -B build/ --install-prefix ~/.local \
+          -DCMAKE_PREFIX_PATH=/opt/qt6  # Qt6'nın kurulu olduğu yolu buraya ekliyoruz
 
       - name: Build with CMake
         run: cmake --build build/ --parallel && cmake --install build/
