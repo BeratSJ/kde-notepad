@@ -32,6 +32,4 @@ jobs:
 
       - name: Build with CMake
         run: cmake --build build/ --parallel
-
-     - name: Last Step
-       run: cmake --install build/
+             cmake --install build/
