@@ -43,6 +43,11 @@ int main (int argc, char *argv[])
 
     window->show();
 
+    KLocalizedString::setApplicationDomain("texteditor");
+
+    KAboutData aboutData(
+            u"texteditor"_s,)
+
 
 
     return app.exec();

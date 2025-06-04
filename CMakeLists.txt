@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 
-project(mainwindow)
+project(texteditor)
 
 
 set(QT_MIN_VERSION "6.6.0")
@@ -17,48 +17,48 @@ include(FeatureSummary)
 
 find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Core    # QCommandLineParser, QStringLiteral
-    Widgets # QApplication
+    Widgets # QApplication, QAction
 )
 
 find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     CoreAddons      # KAboutData
     I18n            # KLocalizedString
-
-    XmlGui          # KXmlGuiWindow
-
+    XmlGui          # KXmlGuiWindow, KActionCollection
     TextWidgets     # KTextEdit
+
+    ConfigWidgets   # KStandardActions
 
 )
 
 
-add_executable(mainwindow)
+add_executable(texteditor)
 
 
 
-target_sources(mainwindow
+target_sources(texteditor
 
     PRIVATE
     main.cpp
-
     mainwindow.cpp
-
 )
 
 
+target_link_libraries(texteditor
 
-target_link_libraries(mainwindow
     Qt6::Widgets
     KF6::CoreAddons
-
     KF6::I18n
-
     KF6::XmlGui
-
     KF6::TextWidgets
+
+    KF6::ConfigWidgets
+
 )
 
 
+install(TARGETS texteditor ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
-install(TARGETS mainwindow ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(FILES texteditorui.rc DESTINATION ${KDE_INSTALL_KXMLGUIDIR}/texteditor)
+
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
